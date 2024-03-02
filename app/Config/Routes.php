@@ -55,6 +55,10 @@ $routes->post('/kategori/save', 'KategoriController::save');
 $routes->get('/admin/kategori/edit/(:any)', 'KategoriController::edit/$1');
 $routes->post('/kategori/update/(:any)', 'KategoriController::update/$1');
 
+// Izin Peminjaman (for admin)
+$routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function($routes) {
+    $routes->get('/admin/izinpeminjaman', 'IzinPeminjamanController::index');
+});
 
 
 // Halaman sebagai Petugas

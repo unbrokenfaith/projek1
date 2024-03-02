@@ -117,37 +117,42 @@
                 <!-- Daftar Buku -->
                 <div class="row">
                     <?php foreach ($buku as $b) : ?>
-                        <div class="col-lg-3 col-md-6 mb-4">
-                            <div class="card card-sm h-100" style="width: 200px; height: 300px;">
-                                <img class="card-img-top sampul" src="/img/<?= $b['Sampul']; ?>" alt="">
-                                <div class="card-body">
-                                    <h4 class="card-title"><?= $b['Judul']; ?></h4>
-                                    <p class="card-text"><?= $b['Penulis']; ?></p>
-                                </div>
-                                <div class="card-footer d-flex justify-content-between align-items-center">
-                                    <a href="/peminjam/peminjaman/create/<?= $b['BukuID']; ?>" class="btn btn-primary btn-sm">Pinjam</a>
-                                    <div class="d-flex">
-                                        <div class="bookmark-icon mr-2">
-                                            <a href="#" class="" onclick="tambahKeKoleksi(<?= $b['BukuID']; ?>)">
-                                                <i class="far fa-bookmark text-dark"></i>
-                                            </a>
-                                        </div>
-                                        <div class="rating-icon">
-                                            <a href="#" class="" onclick="showRatingModal(<?= $b['BukuID']; ?>)">
-                                                <i class="far fa-star text-warning"></i>
-                                            </a>
+                        <?php if (!isset($b['StatusPeminjaman']) || ($b['StatusPeminjaman'] != 1 && $b['StatusPeminjaman'] != 2)) : ?>
+                            <div class="col-lg-3 col-md-6 mb-4">
+                                <div class="card card-sm h-100" style="width: 200px; height: 300px;">
+                                    <img class="card-img-top sampul" src="/img/<?= $b['Sampul']; ?>" alt="">
+                                    <div class="card-body">
+                                        <h4 class="card-title"><?= $b['Judul']; ?></h4>
+                                        <p class="card-text"><?= $b['Penulis']; ?></p>
+                                    </div>
+                                    <div class="card-footer d-flex justify-content-between align-items-center">
+                                        <a href="/peminjam/peminjaman/create/<?= $b['BukuID']; ?>" class="btn btn-primary btn-sm">Pinjam</a>
+                                        <div class="d-flex">
+                                            <div class="bookmark-icon mr-2">
+                                                <a href="#" class="" onclick="tambahKeKoleksi(<?= $b['BukuID']; ?>)">
+                                                    <i class="far fa-bookmark text-dark"></i>
+                                                </a>
+                                            </div>
+                                            <div class="rating-icon">
+                                                <a href="#" class="" onclick="showRatingModal(<?= $b['BukuID']; ?>)">
+                                                    <i class="far fa-star text-warning"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
+                                    <?php if (isset($b['reviewed']) && $b['reviewed']) : ?>
+                                        <div class="card-footer">
+                                            <p class="text-success mt-2">Anda sudah memberikan ulasan</p>
+                                        </div>
+                                    <?php endif; ?>
                                 </div>
-                                <?php if (isset($b['reviewed']) && $b['reviewed']) : ?>
-                                    <div class="card-footer">
-                                        <p class="text-success mt-2">Anda sudah memberikan ulasan</p>
-                                    </div>
-                                <?php endif; ?>
                             </div>
-                        </div>
+                        <?php endif; ?>
                     <?php endforeach; ?>
                 </div>
+
+
+
             </div>
 
             <!-- Modal untuk memberikan rating -->

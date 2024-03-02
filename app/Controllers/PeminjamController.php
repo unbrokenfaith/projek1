@@ -29,19 +29,27 @@ class PeminjamController extends BaseController
 
         return view('/peminjam/index', $data);
     }
+public function buku()
+{
+    $username = session()->get('username');
 
-    public function buku()
-    {
-        $username = session()->get('username');
+    // Get available books
+    $availableBooks = $this->bukuModel->getAvailableBooks();
 
-        $data = [
-            'title' => 'Daftar Buku',
-            'username' => $username,
-            'buku' => $this->bukuModel->getAllBuku(),
-        ];
+    // Debugging: Check the result of the query
+    echo "<pre>";
+    print_r($availableBooks);
+    echo "</pre>";
 
-        return view('/peminjam/peminjaman/index', $data);
-    }
+    $data = [
+        'title' => 'Daftar Buku',
+        'username' => $username,
+        'buku' => $availableBooks,
+    ];
+
+    return view('/peminjam/peminjaman/index', $data);
+}
+
 
     public function peminjaman($id)
     {
@@ -53,7 +61,7 @@ class PeminjamController extends BaseController
             'title' => 'Pinjam Buku',
             'username' => $username,
             'namaLengkap' => $namaLengkap,
-            'buku' => $this->bukuModel->getBukuById($id),
+            'buku' => $this->bukuModel->getAvailableBooks(),
             'userID' => $userID,
         ];
 
@@ -89,19 +97,5 @@ class PeminjamController extends BaseController
     }
 
     // Method untuk menambahkan peminjaman baru
-    public function addPeminjaman($data)
-    {
-        return $this->insert($data);
-    }
 
-    // Method untuk mengupdate status peminjaman
-    public function updateStatusPeminjaman($peminjamanID, $status)
-    {
-        $this->where('PeminjamanID', $peminjamanID)->set(['StatusPeminjaman' => $status])->update();
-    }
-
-    public function coba()
-    {
-
-    }
 }

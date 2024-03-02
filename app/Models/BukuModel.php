@@ -44,7 +44,7 @@ class BukuModel extends Model
     {
         // Ambil data sampul dari database berdasarkan ID
         $query = $this->select('Sampul')->where('BukuID', $id)->first();
-        
+
         // Jika data ditemukan, kembalikan nama file sampul
         if ($query) {
             return $query['Sampul'];
@@ -53,4 +53,15 @@ class BukuModel extends Model
         }
     }
 
+    public function getAvailableBooks()
+    {
+        return $this->db->table('buku')
+            ->select('buku.*')
+            ->join('peminjaman', 'buku.BukuID = peminjaman.BukuID', 'left')
+            ->where("peminjaman.StatusPeminjaman IS NULL OR peminjaman.StatusPeminjaman NOT IN (1, 2)")
+            ->get()
+            ->getResultArray();
+    }
+    
+    
 }
