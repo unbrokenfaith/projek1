@@ -37,7 +37,7 @@ class PeminjamController extends BaseController
         $data = [
             'title' => 'Daftar Buku',
             'username' => $username,
-            'buku' => $this->bukuModel->getAllBuku()
+            'buku' => $this->bukuModel->getAllBuku(),
         ];
 
         return view('/peminjam/peminjaman/index', $data);
@@ -70,7 +70,6 @@ class PeminjamController extends BaseController
         //     return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu');
         // }
 
-
         $bukuID = $this->request->getPost('BukuID');
         $tanggalPeminjaman = $this->request->getPost('tanggalPeminjaman');
 
@@ -79,7 +78,7 @@ class PeminjamController extends BaseController
             'UserID' => $userID,
             'BukuID' => $bukuID,
             'TanggalPeminjaman' => $tanggalPeminjaman,
-            'StatusPeminjaman' => 1 // Default status belum dikonfirmasi
+            'StatusPeminjaman' => 1, // Default status belum dikonfirmasi
         ];
 
         // Simpan data peminjaman ke dalam database
@@ -99,5 +98,10 @@ class PeminjamController extends BaseController
     public function updateStatusPeminjaman($peminjamanID, $status)
     {
         $this->where('PeminjamanID', $peminjamanID)->set(['StatusPeminjaman' => $status])->update();
+    }
+
+    public function coba()
+    {
+
     }
 }
