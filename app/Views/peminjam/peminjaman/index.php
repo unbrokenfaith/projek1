@@ -1,6 +1,6 @@
-<?= $this->extend('layout/template'); ?>
+<?=$this->extend('layout/template');?>
 
-<?= $this->section('content'); ?>
+<?=$this->section('content');?>
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -88,7 +88,7 @@
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $username; ?></span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?=$username;?></span>
                             <i class="fa-solid fa-user"></i> </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -97,7 +97,7 @@
                                 Profile
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="<?= base_url('/logout'); ?>">
+                            <a class="dropdown-item" href="<?=base_url('/logout');?>">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Logout
                             </a>
@@ -112,43 +112,49 @@
                 <!-- Page Heading -->
                 <div class="d-sm-flex align-items-center justify-content-between mb-4">
                     <h1 class="h3 mb-0 text-gray-800">Daftar Buku</h1>
+                    <?php if (session()->getFlashdata('success')): ?>
+                        <div class="alert alert-success" role="alert">
+                            <?=session()->getFlashdata('success')?>
+                        </div>
+                    <?php endif;?>
+
                 </div>
 
                 <!-- Daftar Buku -->
                 <div class="row">
-                    <?php foreach ($buku as $b) : ?>
-                        <?php if (!isset($b['StatusPeminjaman']) || ($b['StatusPeminjaman'] != 1 && $b['StatusPeminjaman'] != 2)) : ?>
+                    <?php foreach ($buku as $b): ?>
+                        <?php if (!isset($b['StatusPeminjaman']) || ($b['StatusPeminjaman'] != 1 && $b['StatusPeminjaman'] != 2)): ?>
                             <div class="col-lg-3 col-md-6 mb-4">
                                 <div class="card card-sm h-100" style="width: 200px; height: 300px;">
-                                    <img class="card-img-top sampul" src="/img/<?= $b['Sampul']; ?>" alt="">
+                                    <img class="card-img-top sampul" src="/img/<?=$b['Sampul'];?>" alt="">
                                     <div class="card-body">
-                                        <h4 class="card-title"><?= $b['Judul']; ?></h4>
-                                        <p class="card-text"><?= $b['Penulis']; ?></p>
+                                        <h4 class="card-title"><?=$b['Judul'];?></h4>
+                                        <p class="card-text"><?=$b['Penulis'];?></p>
                                     </div>
                                     <div class="card-footer d-flex justify-content-between align-items-center">
-                                        <a href="/peminjam/peminjaman/create/<?= $b['BukuID']; ?>" class="btn btn-primary btn-sm">Pinjam</a>
+                                        <a href="/peminjam/peminjaman/create/<?=$b['BukuID'];?>" class="btn btn-primary btn-sm">Pinjam</a>
                                         <div class="d-flex">
                                             <div class="bookmark-icon mr-2">
-                                                <a href="#" class="" onclick="tambahKeKoleksi(<?= $b['BukuID']; ?>)">
+                                                <a href="#" class="" onclick="tambahKeKoleksi(<?=$b['BukuID'];?>)">
                                                     <i class="far fa-bookmark text-dark"></i>
                                                 </a>
                                             </div>
                                             <div class="rating-icon">
-                                                <a href="#" class="" onclick="showRatingModal(<?= $b['BukuID']; ?>)">
+                                                <a href="#" class="" onclick="showRatingModal(<?=$b['BukuID'];?>)">
                                                     <i class="far fa-star text-warning"></i>
                                                 </a>
                                             </div>
                                         </div>
                                     </div>
-                                    <?php if (isset($b['reviewed']) && $b['reviewed']) : ?>
+                                    <?php if (isset($b['reviewed']) && $b['reviewed']): ?>
                                         <div class="card-footer">
                                             <p class="text-success mt-2">Anda sudah memberikan ulasan</p>
                                         </div>
-                                    <?php endif; ?>
+                                    <?php endif;?>
                                 </div>
                             </div>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
+                        <?php endif;?>
+                    <?php endforeach;?>
                 </div>
 
 
@@ -256,4 +262,4 @@
     };
 </script>
 
-<?= $this->endSection(); ?>
+<?=$this->endSection();?>

@@ -51,7 +51,7 @@
         <!-- Nav Item - Petugas -->
         <li class="nav-item">
             <a class="nav-link" href="/admin/petugas">
-                <i class="fas fa-fw fa-chart-area"></i>
+                <i class="fas fa-fw fa-id-card"></i>
                 <span>Petugas</span></a>
         </li>
 
@@ -65,6 +65,13 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider">
+
+        <!-- Nav Item - Izin Peminjaman -->
+        <li class="nav-item">
+            <a class="nav-link" href="/admin/izinpeminjaman">
+                <i class="fas fa-fw fa-list"></i>
+                <span>Izin Peminjaman</span></a>
+        </li>
 
         <!-- Nav Item - Riwayat Peminjaman -->
         <li class="nav-item">

@@ -1,6 +1,6 @@
-<?=$this->extend('layout/template');?>
+<?= $this->extend('layout/template'); ?>
 
-<?=$this->section('content');?>
+<?= $this->section('content'); ?>
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -49,7 +49,7 @@
         </li>
 
         <!-- Nav Item - Petugas -->
-        <li class="nav-item active">
+        <li class="nav-item">
             <a class="nav-link" href="/admin/petugas">
                 <i class="fas fa-fw fa-id-card"></i>
                 <span>Petugas</span></a>
@@ -74,7 +74,7 @@
         </li>
 
         <!-- Nav Item - Riwayat Peminjaman -->
-        <li class="nav-item">
+        <li class="nav-item active">
             <a class="nav-link" href="/admin/riwayatpeminjaman">
                 <i class="fas fa-fw fa-clock-rotate-left"></i>
                 <span>Riwayat Peminjaman</span></a>
@@ -132,60 +132,67 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
-
                 <div class="row">
                     <div class="col">
-                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                            <a href="/admin/petugas/create" class="btn btn-outline-primary me-md-3">Tambah Data</a>
-                        </div>
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">Daftar Petugas</h1>
+                            <h1 class="h3 mb-0 text-gray-800">Daftar Peminjaman</h1>
                         </div>
 
-                        <?php if (session()->getFlashdata('pesan')): ?>
+                        <?php if (session()->getFlashdata('pesan')) : ?>
                             <div class="alert alert-success" role="alert">
-                                <?=session()->getFlashdata('pesan');?>
+                                <?= session()->getFlashdata('pesan'); ?>
                             </div>
-                        <?php endif;?>
+                        <?php endif; ?>
 
-                        <div class=" card shadow">
-
+                        <div class="card shadow">
                             <table class="table">
                                 <thead>
                                     <tr>
                                         <th scope="col">No</th>
-                                        <th scope="col">Nama Lengkap</th>
                                         <th scope="col">Username</th>
-                                        <th scope="col">Email</th>
+                                        <th scope="col">Judul</th>
+                                        <th scope="col">Tanggal Peminjaman</th>
                                         <th scope="col">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php $i = 1;?>
-                                    <?php foreach ($petugas as $p): ?>
+                                    <?php if (!empty($peminjaman)) : ?>
+                                        <?php $i = 1; ?>
+                                        <?php foreach ($peminjaman as $pm) : ?>
+                                            <tr>
+                                                <th scope="row"><?= $i++; ?></th>
+                                                <td><?= $pm['Username']; ?></td>
+                                                <td><?= $pm['Judul']; ?></td>
+                                                <td><?= $pm['TanggalPeminjaman']; ?></td>
+                                                <td>
+                                                    <?php if ($pm['StatusPeminjaman'] == 1) : ?>
+                                                        <form action="/admin/riwayatpeminjaman/kembalikan/<?= $pm['PeminjamanID']; ?>" method="post">
+                                                            <input type="date" name="tanggal_pengembalian" required>
+                                                            <button type="submit" class="btn btn-primary">Kembalikan</button>
+                                                        </form>
+                                                    <?php elseif ($pm['StatusPeminjaman'] == 2) : ?>
+                                                        <span class="badge badge-success">Dipinjam</span>
+                                                        <form action="/admin/riwayatpeminjaman/kembalikan/<?= $pm['PeminjamanID']; ?>" method="post">
+                                                            <input type="date" name="tanggal_pengembalian" required>
+                                                            <button type="submit" class="btn btn-primary">Kembalikan</button>
+                                                        </form>
+                                                    <?php elseif ($pm['StatusPeminjaman'] == 3) : ?>
+                                                        <span class="badge badge-secondary">Dikembalikan</span>
+                                                    <?php endif; ?>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
+                                    <?php else : ?>
                                         <tr>
-                                            <th scope="row"><?=$i++;?></th>
-                                            <td><?=$p['NamaLengkap'];?></td>
-                                            <td><?=$p['Username'];?></td>
-                                            <td><?=$p['Email'];?></td>
-                                            <td>
-                                                <a href="/admin/petugas/edit/<?=$p['UserID'];?>" class="btn btn-warning">Ubah</a> |
-
-                                                <form action="/petugas/<?=$p['UserID'];?>" method="post" class="d-inline">
-                                                    <?=csrf_field();?>
-                                                    <input type="hidden" name="_method" value="DELETE">
-                                                    <button type="submit" class="btn btn-danger" onclick="return confirm('apakah Anda yakin ingin menghapus?');">Hapus</button>
-                                                </form>
-                                            </td>
+                                            <td colspan="5">Tidak ada data peminjaman yang tersedia.</td>
                                         </tr>
-                                    <?php endforeach;?>
+                                    <?php endif; ?>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-
             <!-- /.container-fluid -->
 
         </div>
@@ -231,4 +238,4 @@
     </div>
 </div>
 
-<?=$this->endSection();?>
+<?= $this->endSection(); ?>

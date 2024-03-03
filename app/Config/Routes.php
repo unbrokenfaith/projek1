@@ -59,6 +59,12 @@ $routes->post('/kategori/update/(:any)', 'KategoriController::update/$1');
 $routes->group('admin', ['namespace' => 'App\Controllers\Admin'], function($routes) {
     $routes->get('/admin/izinpeminjaman', 'IzinPeminjamanController::index');
 });
+$routes->get('/admin/izinpeminjaman', 'IzinPeminjamanController::index');
+$routes->get('admin/izinpeminjaman/izinkan/(:num)', 'IzinPeminjamanController::izinkan/$1');
+
+// Riwayat Peminjaman (for admin)
+$routes->get('/admin/riwayatpeminjaman', 'RiwayatPeminjamanController::index');
+$routes->post('admin/riwayatpeminjaman/kembalikan/(:num)', 'RiwayatPeminjamanController::kembalikanPeminjaman/$1');
 
 
 // Halaman sebagai Petugas
@@ -96,6 +102,9 @@ $routes->get('/peminjam', 'PeminjamController::index');
 $routes->get('/peminjam/buku', 'PeminjamController::buku');
 $routes->get('/peminjam/peminjaman/create/(:any)', 'PeminjamController::peminjaman/$1');
 $routes->post('/peminjam/peminjaman/konfirmasi', 'PeminjamController::konfirmasi');
+
+// Riwayat peminjaman sebagai (Peminjam)
+$routes->get('/peminjam/riwayatpeminjaman', 'PeminjamController::riwayat');
 
 
 

@@ -36,29 +36,29 @@
 
         <!-- Nav Item - Buku -->
         <li class="nav-item">
-            <a class="nav-link" href="/buku/index">
+            <a class="nav-link" href="/admin/buku">
                 <i class="fas fa-fw fa-book"></i>
                 <span>Buku</span></a>
         </li>
 
         <!-- Nav Item - Kategori -->
         <li class="nav-item">
-            <a class="nav-link" href="/kategori/index">
+            <a class="nav-link" href="/admin/kategori">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Kategori</span></a>
         </li>
 
         <!-- Nav Item - Petugas -->
         <li class="nav-item">
-            <a class="nav-link" href="/petugas/index">
-                <i class="fas fa-fw fa-chart-area"></i>
+            <a class="nav-link" href="/admin/petugas">
+                <i class="fas fa-fw fa-id-card"></i>
                 <span>Petugas</span></a>
         </li>
 
 
         <!-- Nav Item - Users -->
         <li class="nav-item active">
-            <a class="nav-link" href="/user/index">
+            <a class="nav-link" href="/admin/user">
                 <i class="fas fa-fw fa-users"></i>
                 <span>Users</span></a>
         </li>
@@ -66,9 +66,16 @@
         <!-- Divider -->
         <hr class="sidebar-divider">
 
+        <!-- Nav Item - Izin Peminjaman -->
+        <li class="nav-item">
+            <a class="nav-link" href="/admin/izinpeminjaman">
+                <i class="fas fa-fw fa-list"></i>
+                <span>Izin Peminjaman</span></a>
+        </li>
+
         <!-- Nav Item - Riwayat Peminjaman -->
         <li class="nav-item">
-            <a class="nav-link" href="/riwayatpeminjaman/index">
+            <a class="nav-link" href="/admin/riwayatpeminjaman">
                 <i class="fas fa-fw fa-clock-rotate-left"></i>
                 <span>Riwayat Peminjaman</span></a>
         </li>

@@ -29,58 +29,57 @@ class PeminjamController extends BaseController
 
         return view('/peminjam/index', $data);
     }
-public function buku()
-{
+    public function buku()
+    {
     $username = session()->get('username');
-
+    
     // Get available books
     $availableBooks = $this->bukuModel->getAvailableBooks();
-
-    // Debugging: Check the result of the query
-    echo "<pre>";
-    print_r($availableBooks);
-    echo "</pre>";
-
+    
     $data = [
         'title' => 'Daftar Buku',
         'username' => $username,
         'buku' => $availableBooks,
     ];
-
+    
     return view('/peminjam/peminjaman/index', $data);
 }
 
 
-    public function peminjaman($id)
-    {
-        $userID = session()->get('userID');
-        $username = session()->get('username');
-        $namaLengkap = session()->get('namaLengkap');
+public function peminjaman($id)
+{
+    $userID = session()->get('userID');
+    $username = session()->get('username');
+    $namaLengkap = session()->get('namaLengkap');
 
-        $data = [
-            'title' => 'Pinjam Buku',
-            'username' => $username,
-            'namaLengkap' => $namaLengkap,
-            'buku' => $this->bukuModel->getAvailableBooks(),
-            'userID' => $userID,
-        ];
+    // Get book information based on $id
+    $buku = $this->bukuModel->getBukuById($id);
+    
+    $data = [
+        'title' => 'Pinjam Buku',
+        'username' => $username,
+        'namaLengkap' => $namaLengkap,
+        'buku' => $buku,
+        'userID' => $userID,
+    ];
+    
+    return view('/peminjam/peminjaman/create', $data);
+}
 
-        return view('/peminjam/peminjaman/create', $data);
-    }
 
-    public function konfirmasi()
-    {
-        // Ambil data dari formulir
-        $userID = session()->get('userID');
-
-        // if (!$userID) {
+public function konfirmasi()
+{
+    // Ambil data dari formulir
+    $userID = session()->get('userID');
+    
+    // if (!$userID) {
         //     // Jika UserID tidak tersedia, lakukan sesuatu, misalnya redirect ke halaman lain atau tampilkan pesan kesalahan
         //     return redirect()->to('/login')->with('error', 'Silakan login terlebih dahulu');
         // }
-
+        
         $bukuID = $this->request->getPost('BukuID');
         $tanggalPeminjaman = $this->request->getPost('tanggalPeminjaman');
-
+        
         // Persiapkan data peminjaman
         $dataPeminjaman = [
             'UserID' => $userID,
@@ -88,14 +87,32 @@ public function buku()
             'TanggalPeminjaman' => $tanggalPeminjaman,
             'StatusPeminjaman' => 1, // Default status belum dikonfirmasi
         ];
-
+        
         // Simpan data peminjaman ke dalam database
         $this->peminjamanModel->insert($dataPeminjaman);
-
+        
         // Redirect setelah berhasil menyimpan
-        return redirect()->to('/peminjam/buku')->with('success', 'Peminjaman berhasil dikonfirmasi');
+        return redirect()->to('/peminjam/buku')->with('success', 'Peminjaman berhasil');
     }
-
+    
     // Method untuk menambahkan peminjaman baru
-
+    
+    public function riwayat()
+    {
+        $userID = session()->get('userID');
+        
+        // Ambil riwayat peminjaman berdasarkan UserID
+        $riwayatPeminjaman = $this->peminjamanModel->getRiwayatPeminjamanByUserID($userID);
+        
+        $username = session()->get('username');
+        
+        $data = [
+            'title' => 'Riwayat Page',
+            'username' => $username,
+            'riwayatPeminjaman' => $riwayatPeminjaman,
+        ];
+    
+        return view('/peminjam/riwayatpeminjaman/index', $data);
+    }
+    
 }
