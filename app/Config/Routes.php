@@ -106,6 +106,8 @@ $routes->post('/peminjam/peminjaman/konfirmasi', 'PeminjamController::konfirmasi
 // Riwayat peminjaman sebagai (Peminjam)
 $routes->get('/peminjam/riwayatpeminjaman', 'PeminjamController::riwayat');
 
+// Koleksi pribadi (Peminjam)
+$routes->post('/peminjam/tambah-koleksi', 'PeminjamController::tambahKoleksi');
 
 
 
