@@ -1,6 +1,6 @@
-<?=$this->extend('layout/template');?>
+<?= $this->extend('layout/template'); ?>
 
-<?=$this->section('content');?>
+<?= $this->section('content'); ?>
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -20,8 +20,8 @@
         <hr class="sidebar-divider my-0">
 
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-            <a class="nav-link" href="/admin">
+        <li class="nav-item">
+            <a class="nav-link" href="/petugas">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
         </li>
@@ -36,29 +36,21 @@
 
         <!-- Nav Item - Buku -->
         <li class="nav-item">
-            <a class="nav-link" href="/admin/buku">
+            <a class="nav-link" href="/petugas/buku">
                 <i class="fas fa-fw fa-book"></i>
                 <span>Buku</span></a>
         </li>
 
         <!-- Nav Item - Kategori -->
         <li class="nav-item">
-            <a class="nav-link" href="/admin/kategori">
+            <a class="nav-link" href="/petugas/kategori">
                 <i class="fas fa-fw fa-table"></i>
                 <span>Kategori</span></a>
         </li>
 
-        <!-- Nav Item - Petugas -->
-        <li class="nav-item">
-            <a class="nav-link" href="/admin/petugas">
-                <i class="fas fa-fw fa-id-card"></i>
-                <span>Petugas</span></a>
-        </li>
-
-
         <!-- Nav Item - Users -->
         <li class="nav-item">
-            <a class="nav-link" href="/admin/user">
+            <a class="nav-link" href="/petugas/user">
                 <i class="fas fa-fw fa-users"></i>
                 <span>Users</span></a>
         </li>
@@ -67,15 +59,15 @@
         <hr class="sidebar-divider">
 
         <!-- Nav Item - Izin Peminjaman -->
-        <li class="nav-item">
-            <a class="nav-link" href="/admin/izinpeminjaman">
+        <li class="nav-item active">
+            <a class="nav-link" href="/petugas/izinpeminjaman">
                 <i class="fas fa-fw fa-list"></i>
                 <span>Izin Peminjaman</span></a>
         </li>
 
         <!-- Nav Item - Riwayat Peminjaman -->
         <li class="nav-item">
-            <a class="nav-link" href="/admin/riwayatpeminjaman">
+            <a class="nav-link" href="/petugas/riwayatpeminjaman">
                 <i class="fas fa-fw fa-clock-rotate-left"></i>
                 <span>Riwayat Peminjaman</span></a>
         </li>
@@ -111,7 +103,7 @@
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?=$username;?></span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $username; ?></span>
                             <i class="fa-solid fa-user"></i> </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -120,7 +112,7 @@
                                 Profile
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="<?=base_url('/logout');?>">
+                            <a class="dropdown-item" href="<?= base_url('/logout'); ?>">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Logout
                             </a>
@@ -132,13 +124,53 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
+                <div class="row">
+                    <div class="col">
+                        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                            <h1 class="h3 mb-0 text-gray-800">Daftar Permintaan Peminjaman</h1>
+                        </div>
 
-                <!-- Page Heading -->
-                <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                    <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-                    <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        <?php if (session()->getFlashdata('pesan')) : ?>
+                            <div class="alert alert-success" role="alert">
+                                <?= session()->getFlashdata('pesan'); ?>
+                            </div>
+                        <?php endif; ?>
+
+                        <div class=" card shadow">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Username</th>
+                                        <th scope="col">Judul</th>
+                                        <th scope="col">Tanggal Peminjaman</th>
+                                        <th scope="col">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php $i = 1; ?>
+                                    <?php if (!empty($peminjaman)) : ?>
+                                    <?php foreach ($peminjaman as $pm) : ?>
+                                        <tr>
+                                            <th scope="row"><?= $i++; ?></th>
+                                            <td><?= $pm['Username']; ?></td>
+                                            <td><?= $pm['Judul']; ?></td>
+                                            <td><?= $pm['TanggalPeminjaman']; ?></td>
+                                            <td>
+                                                <a href="/petugas/izinpeminjaman/izinkan/<?= $pm['PeminjamanID']; ?>" class="btn btn-success">Izinkan</a>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
+                                    <?php else : ?>
+                                        <tr>
+                                            <td colspan="5">Tidak ada data peminjaman yang tersedia.</td>
+                                        </tr>
+                                    <?php endif; ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
-
             </div>
             <!-- /.container-fluid -->
 
@@ -185,4 +217,6 @@
     </div>
 </div>
 
-<?=$this->endSection();?>
+
+
+<?= $this->endSection(); ?>

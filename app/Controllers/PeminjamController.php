@@ -119,34 +119,35 @@ class PeminjamController extends BaseController
     public function tambahKoleksi()
     {
         $userID = session()->get('userID');
-        $bukuID = $this->request->getPost('bukuID');
-
+        $bukuID = $this->request->getPost('BukuID');
+    
         // Lakukan validasi data yang diterima
-
+    
         // Simpan data ke dalam tabel KoleksiPribadi
         $data = [
             'UserID' => $userID,
             'BukuID' => $bukuID,
         ];
         $this->koleksiModel->insert($data);
-
+    
         // Beri respons kepada klien
         $response['message'] = 'Buku berhasil ditambahkan ke koleksi pribadi.';
         $response['status'] = 'success'; // tambahkan status ini untuk menandakan bahwa buku telah ditambahkan ke koleksi
         return $this->response->setJSON($response);
     }
-
+    
     public function hapusKoleksi()
     {
         $userID = session()->get('userID');
         $bukuID = $this->request->getPost('bukuID');
-
+    
         // Hapus buku dari koleksi pribadi
         $this->koleksiModel->where('UserID', $userID)->where('BukuID', $bukuID)->delete();
-
+    
         // Beri respons kepada klien
         $response['message'] = 'Buku berhasil dihapus dari koleksi pribadi.';
         $response['status'] = 'success';
         return $this->response->setJSON($response);
     }
+    
 }

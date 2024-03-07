@@ -135,7 +135,7 @@
                                         <a href="/peminjam/peminjaman/create/<?= $b['BukuID']; ?>" class="btn btn-primary btn-sm">Pinjam</a>
                                         <div class="d-flex">
                                             <div class="bookmark-icon mr-2">
-                                                <a href="javascript:void(0);" class="" onclick="tambahKeKoleksi(<?= $b['BukuID']; ?>)">
+                                                <a href="" class="" onclick="tambahKeKoleksi(<?= $b['BukuID']; ?>)">
                                                     <i class="far fa-bookmark text-dark"></i>
                                                 </a>
                                             </div>
@@ -263,52 +263,51 @@
 </script>
 
 <script>
-function tambahKeKoleksi(bukuID) {
-    // Periksa apakah buku sudah ada di koleksi pribadi
-    var isBookmarked = $('.bookmark-icon a[data-bukuid="' + bukuID + '"] i').hasClass('fas');
+    function tambahKeKoleksi(bukuID) {
+        // Periksa apakah buku sudah ada di koleksi pribadi
+        var isBookmarked = $('.bookmark-icon a[data-bukuid="' + bukuID + '"] i').hasClass('fas');
 
-    // Jika buku sudah ada di koleksi pribadi, maka hapus dari koleksi
-    if (isBookmarked) {
-        // Kirim permintaan AJAX untuk menghapus buku dari koleksi
-        $.ajax({
-            url: '/peminjam/hapus-koleksi',
-            method: 'POST',
-            data: {
-                bukuID: bukuID
-            },
-            success: function(response) {
-                alert(response.message); // Tampilkan pesan berhasil atau gagal
-                if (response.status === 'success') {
-                    // Hapus ikon bookmark
-                    $('.bookmark-icon a[data-bukuid="' + bukuID + '"] i').removeClass('fas').addClass('far');
+        // Jika buku sudah ada di koleksi pribadi, maka hapus dari koleksi
+        if (isBookmarked) {
+            // Kirim permintaan AJAX untuk menghapus buku dari koleksi
+            $.ajax({
+                url: '/peminjam/hapus-koleksi',
+                method: 'POST',
+                data: {
+                    bukuID: bukuID
+                },
+                success: function(response) {
+                    alert(response.message); // Tampilkan pesan berhasil atau gagal
+                    if (response.status === 'success') {
+                        // Hapus ikon bookmark
+                        $('.bookmark-icon a[data-bukuid="' + bukuID + '"] i').removeClass('fas fa-bookmark').addClass('far fa-bookmark');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
-    } else { // Jika buku belum ada di koleksi pribadi, tambahkan ke koleksi
-        // Kirim permintaan AJAX untuk menambahkan buku ke koleksi
-        $.ajax({
-            url: '/peminjam/tambah-koleksi',
-            method: 'POST',
-            data: {
-                bukuID: bukuID
-            },
-            success: function(response) {
-                alert(response.message); // Tampilkan pesan berhasil atau gagal
-                if (response.status === 'success') {
-                    // Tambahkan ikon bookmark
-                    $('.bookmark-icon a[data-bukuid="' + bukuID + '"] i').removeClass('far').addClass('fas');
+            });
+        } else { // Jika buku belum ada di koleksi pribadi, tambahkan ke koleksi
+            // Kirim permintaan AJAX untuk menambahkan buku ke koleksi
+            $.ajax({
+                url: '/peminjam/tambah-koleksi',
+                method: 'POST',
+                data: {
+                    bukuID: bukuID
+                },
+                success: function(response) {
+                    alert(response.message); // Tampilkan pesan berhasil atau gagal
+                    if (response.status === 'success') {
+                        // Tambahkan ikon bookmark
+                        $('.bookmark-icon a[data-bukuid="' + bukuID + '"] i').removeClass('far fa-bookmark').addClass('fas fa-bookmark');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error(xhr.responseText);
-            }
-        });
+            });
+        }
     }
-}
-
 </script>
 
 

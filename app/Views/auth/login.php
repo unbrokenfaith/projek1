@@ -20,6 +20,7 @@
                                     <h1 class="h4 text-gray-900 mb-4">Welcome Back to Perpustakaan</h1>
                                 </div>
                                 <form action="<?= base_url('/AuthController/loginProcess'); ?>" method="post" enctype="multipart/form-data" class="user">
+                                    <?= csrf_field() ?>
                                     <div class="form-group">
                                         <input type="text" class="form-control form-control-user" id="username" name="username" placeholder="Username">
                                         <?php if (session()->has('errUsername')) : ?>

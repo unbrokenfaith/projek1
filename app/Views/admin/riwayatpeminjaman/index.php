@@ -1,6 +1,6 @@
-<?= $this->extend('layout/template'); ?>
+<?=$this->extend('layout/template');?>
 
-<?= $this->section('content'); ?>
+<?=$this->section('content');?>
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -111,7 +111,7 @@
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $username; ?></span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?=$username;?></span>
                             <i class="fa-solid fa-user"></i> </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -120,7 +120,7 @@
                                 Profile
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="<?= base_url('/logout'); ?>">
+                            <a class="dropdown-item" href="<?=base_url('/logout');?>">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Logout
                             </a>
@@ -136,13 +136,15 @@
                     <div class="col">
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
                             <h1 class="h3 mb-0 text-gray-800">Daftar Peminjaman</h1>
+                            <a href="/admin/generatelaporan" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+
                         </div>
 
-                        <?php if (session()->getFlashdata('pesan')) : ?>
+                        <?php if (session()->getFlashdata('pesan')): ?>
                             <div class="alert alert-success" role="alert">
-                                <?= session()->getFlashdata('pesan'); ?>
+                                <?=session()->getFlashdata('pesan');?>
                             </div>
-                        <?php endif; ?>
+                        <?php endif;?>
 
                         <div class="card shadow">
                             <table class="table">
@@ -156,37 +158,37 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if (!empty($peminjaman)) : ?>
-                                        <?php $i = 1; ?>
-                                        <?php foreach ($peminjaman as $pm) : ?>
+                                    <?php if (!empty($peminjaman)): ?>
+                                        <?php $i = 1;?>
+                                        <?php foreach ($peminjaman as $pm): ?>
                                             <tr>
-                                                <th scope="row"><?= $i++; ?></th>
-                                                <td><?= $pm['Username']; ?></td>
-                                                <td><?= $pm['Judul']; ?></td>
-                                                <td><?= $pm['TanggalPeminjaman']; ?></td>
+                                                <th scope="row"><?=$i++;?></th>
+                                                <td><?=$pm['Username'];?></td>
+                                                <td><?=$pm['Judul'];?></td>
+                                                <td><?=$pm['TanggalPeminjaman'];?></td>
                                                 <td>
-                                                    <?php if ($pm['StatusPeminjaman'] == 1) : ?>
-                                                        <form action="/admin/riwayatpeminjaman/kembalikan/<?= $pm['PeminjamanID']; ?>" method="post">
+                                                    <?php if ($pm['StatusPeminjaman'] == 1): ?>
+                                                        <form action="/admin/riwayatpeminjaman/kembalikan/<?=$pm['PeminjamanID'];?>" method="post">
                                                             <input type="date" name="tanggal_pengembalian" required>
                                                             <button type="submit" class="btn btn-primary">Kembalikan</button>
                                                         </form>
-                                                    <?php elseif ($pm['StatusPeminjaman'] == 2) : ?>
+                                                    <?php elseif ($pm['StatusPeminjaman'] == 2): ?>
                                                         <span class="badge badge-success">Dipinjam</span>
-                                                        <form action="/admin/riwayatpeminjaman/kembalikan/<?= $pm['PeminjamanID']; ?>" method="post">
+                                                        <form action="/admin/riwayatpeminjaman/kembalikan/<?=$pm['PeminjamanID'];?>" method="post">
                                                             <input type="date" name="tanggal_pengembalian" required>
                                                             <button type="submit" class="btn btn-primary">Kembalikan</button>
                                                         </form>
-                                                    <?php elseif ($pm['StatusPeminjaman'] == 3) : ?>
+                                                    <?php elseif ($pm['StatusPeminjaman'] == 3): ?>
                                                         <span class="badge badge-secondary">Dikembalikan</span>
-                                                    <?php endif; ?>
+                                                    <?php endif;?>
                                                 </td>
                                             </tr>
-                                        <?php endforeach; ?>
-                                    <?php else : ?>
+                                        <?php endforeach;?>
+                                    <?php else: ?>
                                         <tr>
                                             <td colspan="5">Tidak ada data peminjaman yang tersedia.</td>
                                         </tr>
-                                    <?php endif; ?>
+                                    <?php endif;?>
                                 </tbody>
                             </table>
                         </div>
@@ -238,4 +240,4 @@
     </div>
 </div>
 
-<?= $this->endSection(); ?>
+<?=$this->endSection();?>

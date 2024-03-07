@@ -66,6 +66,8 @@ $routes->get('admin/izinpeminjaman/izinkan/(:num)', 'IzinPeminjamanController::i
 $routes->get('/admin/riwayatpeminjaman', 'RiwayatPeminjamanController::index');
 $routes->post('admin/riwayatpeminjaman/kembalikan/(:num)', 'RiwayatPeminjamanController::kembalikanPeminjaman/$1');
 
+// Generate Laporan (for admin)
+$routes->get('/admin/generatelaporan', 'RiwayatPeminjamanController::generateLaporan');
 
 // Halaman sebagai Petugas
 $routes->get('/petugas', 'PetugasPageController::index');
@@ -108,6 +110,7 @@ $routes->get('/peminjam/riwayatpeminjaman', 'PeminjamController::riwayat');
 
 // Koleksi pribadi (Peminjam)
 $routes->post('/peminjam/tambah-koleksi', 'PeminjamController::tambahKoleksi');
+$routes->post('/peminjam/hapus-koleksi', 'PeminjamController::hapusKoleksi');
 
 
 

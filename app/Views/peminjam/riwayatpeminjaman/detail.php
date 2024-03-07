@@ -1,6 +1,6 @@
-<?=$this->extend('layout/template');?>
+<?= $this->extend('layout/template'); ?>
 
-<?=$this->section('content');?>
+<?= $this->section('content'); ?>
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -88,7 +88,7 @@
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?=$username;?></span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $username; ?></span>
                             <i class="fa-solid fa-user"></i> </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -97,7 +97,7 @@
                                 Profile
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="<?=base_url('/logout');?>">
+                            <a class="dropdown-item" href="<?= base_url('/logout'); ?>">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Logout
                             </a>
@@ -112,54 +112,70 @@
                 <div class="row">
                     <div class="col">
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">Daftar Peminjaman</h1>
+                            <h1 class="h3 mb-0 text-gray-800">Detail Peminjaman</h1>
                         </div>
 
-                        <?php if (session()->getFlashdata('pesan')): ?>
+                        <?php if (session()->getFlashdata('pesan')) : ?>
                             <div class="alert alert-success" role="alert">
-                                <?=session()->getFlashdata('pesan');?>
+                                <?= session()->getFlashdata('pesan'); ?>
                             </div>
-                        <?php endif;?>
+                        <?php endif; ?>
 
                         <div class="card shadow">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">No</th>
-                                        <th scope="col">Username</th>
-                                        <th scope="col">Judul</th>
-                                        <th scope="col">Tanggal Peminjaman</th>
-                                        <th scope="col">Tanggal Pengembalian</th>
-                                        <th scope="col">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if (!empty($riwayatPeminjaman)): ?>
-                                        <?php $i = 1;?>
-                                        <?php foreach ($riwayatPeminjaman as $riwayat): ?>
-                                            <tr>
-                                                <th scope="row"><?=$riwayat['PeminjamanID'];?></th>
-                                                <td><?=$riwayat['Username'];?></td>
-                                                <td><?=$riwayat['Judul'];?></td>
-                                                <td><?=$riwayat['TanggalPeminjaman'];?></td>
-                                                <td><?=$riwayat['TanggalPengembalian'];?></td>
-                                                <td>
-                                                    <?php if ($riwayat['StatusPeminjaman'] == 2): ?>
-                                                        <span class="badge badge-success">Dipinjam</span>
-                                                    <?php elseif ($riwayat['StatusPeminjaman'] == 3): ?>
-                                                        <span class="badge badge-secondary">Dikembalikan</span>
-                                                    <?php endif;?>
-                                                </td>
+                            <div class="card-body">
+                                <h5 class="card-title">Informasi Peminjaman</h5>
+                                <p><strong>Judul:</strong> <?= $detailRiwayat['Judul']; ?></p>
+                                <p><strong>Sampul:</strong> <img src="/img/<?= $detailRiwayat['Sampul']; ?>" alt="" class="sampul ms-3" width="80px"></p>
+                                <p><strong>Deskripsi:</strong> <?= $detailRiwayat['Deskripsi']; ?></p>
+                                <p><strong>Tanggal Peminjaman:</strong> <?= $detailRiwayat['TanggalPeminjaman']; ?></p>
+                                <p><strong>Tanggal Pengembalian:</strong> <?= $detailRiwayat['TanggalPengembalian']; ?></p>
+                            </div>
+                        </div>
 
-                                            </tr>
-                                        <?php endforeach;?>
-                                    <?php else: ?>
-                                        <tr>
-                                            <td colspan="5">Tidak ada data peminjaman yang tersedia.</td>
-                                        </tr>
-                                    <?php endif;?>
-                                </tbody>
-                            </table>
+                        <!-- Form ulasan -->
+                        <div class="card mt-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Ulasan dan Rating</h5>
+                                <form action="/peminjam/ulasan/save" method="post">
+                                    <?php if (!empty($detailRiwayat) && array_key_exists('BukuID', $detailRiwayat)) : ?>
+                                        <input type="hidden" name="BukuID" value="<?= $detailRiwayat['BukuID']; ?>">
+                                        <?= var_dump($detailRiwayat['BukuID']); ?>
+
+                                        <input type="hidden" name="PeminjamanID" value="<?= $detailRiwayat['PeminjamanID']; ?>">
+                                    <?php else : ?>
+                                        <!-- Tampilkan pesan kesalahan atau berikan tindakan yang sesuai -->
+                                        <!-- <p>Data peminjaman tidak tersedia.</p> -->
+                                    <?php endif; ?>
+                                    <!-- Rating -->
+                                    <div class="form-group">
+                                        <label for="Rating">Rating:</label>
+                                        <div class="rating">
+                                            <span class="star" data-rating="1">&#9733;</span>
+                                            <span class="star" data-rating="2">&#9733;</span>
+                                            <span class="star" data-rating="3">&#9733;</span>
+                                            <span class="star" data-rating="4">&#9733;</span>
+                                            <span class="star" data-rating="5">&#9733;</span>
+                                        </div>
+                                        <input type="hidden" name="Rating" id="Rating" value="0">
+                                        <?php if (isset($validation) && $validation->getError('Rating')) : ?>
+                                            <div class="invalid-feedback">
+                                                <?= $validation->getError('Rating'); ?>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <!-- Ulasan -->
+                                    <div class="form-group">
+                                        <label for="Ulasan">Ulasan:</label>
+                                        <textarea class="form-control <?= isset($validation) && $validation->hasError('Ulasan') ? 'is-invalid' : ''; ?>" id="Ulasan" name="Ulasan" rows="3" required><?= old('Ulasan'); ?></textarea>
+                                        <?php if (session()->has('errUlasan')) : ?>
+                                            <div class="invalid-feedback"><?= session('errUlasan'); ?></div>
+                                        <?php endif; ?>
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -208,5 +224,28 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.star');
 
-<?=$this->endSection();?>
+        stars.forEach(function(star) {
+            star.addEventListener('click', function() {
+                const rating = this.dataset.rating;
+                document.getElementById('Rating').value = rating;
+
+                // Menghapus kelas 'active' dari semua bintang
+                stars.forEach(function(s) {
+                    s.classList.remove('active');
+                });
+
+                // Menambahkan kelas 'active' ke bintang yang diklik dan bintang sebelumnya
+                for (let i = 0; i < rating; i++) {
+                    stars[i].classList.add('active');
+                }
+            });
+        });
+    });
+</script>
+
+
+<?= $this->endSection(); ?>

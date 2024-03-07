@@ -1,6 +1,6 @@
-<?=$this->extend('layout/template');?>
+<?= $this->extend('layout/template'); ?>
 
-<?=$this->section('content');?>
+<?= $this->section('content'); ?>
 
 <!-- Page Wrapper -->
 <div id="wrapper">
@@ -18,6 +18,7 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider my-0">
+
 
         <!-- Nav Item - Dashboard -->
         <li class="nav-item">
@@ -37,7 +38,7 @@
         </li>
 
         <!-- Nav Item - Koleksi Pribadi -->
-        <li class="nav-item">
+        <li class="nav-item active">
             <a class="nav-link" href="/peminjam/koleksipribadi">
                 <i class="fas fa-fw fa-bookmark"></i>
                 <span>Koleksi Pribadi</span></a>
@@ -51,11 +52,12 @@
         </li>
 
         <!-- Nav Item - Riwayat Peminjaman -->
-        <li class="nav-item active">
+        <li class="nav-item">
             <a class="nav-link" href="/peminjam/riwayatpeminjaman">
                 <i class="fas fa-fw fa-clock-rotate-left"></i>
                 <span>Riwayat Peminjaman</span></a>
         </li>
+
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block">
@@ -88,7 +90,7 @@
                     <!-- Nav Item - User Information -->
                     <li class="nav-item dropdown no-arrow">
                         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?=$username;?></span>
+                            <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?= $username; ?></span>
                             <i class="fa-solid fa-user"></i> </a>
                         <!-- Dropdown - User Information -->
                         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -97,7 +99,7 @@
                                 Profile
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="<?=base_url('/logout');?>">
+                            <a class="dropdown-item" href="<?= base_url('/logout'); ?>">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Logout
                             </a>
@@ -112,58 +114,40 @@
                 <div class="row">
                     <div class="col">
                         <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                            <h1 class="h3 mb-0 text-gray-800">Daftar Peminjaman</h1>
+                            <h1 class="h3 mb-0 text-gray-800">Daftar Buku dalam Koleksi Pribadi</h1>
                         </div>
 
-                        <?php if (session()->getFlashdata('pesan')): ?>
-                            <div class="alert alert-success" role="alert">
-                                <?=session()->getFlashdata('pesan');?>
+                        <?php foreach ($koleksi as $k) : ?>
+                            <div class="card mb-3" style="max-width: 850px;">
+                                <div class="row g-0">
+                                    <div class="col-md-4">
+                                        <img src="/img/<?= $k['Sampul']; ?>" class="img-fluid rounded-start" alt="<?= $k['Judul']; ?>">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h5 class="card-title"><?= $k['Judul']; ?></h5>
+                                            <p class="card-text" style="font-size: 14px;"><?= $k['Deskripsi'] ?></p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <p class="card-text"><small class="text-muted"><?= $k['Penulis']; ?></small></p>
+                                                <div>
+                                                    <i class="fas fa-star"></i>
+                                                    <?php if ($k['KoleksiID']) : ?>
+                                                        <i class="fas fa-bookmark text-black"></i>
+                                                    <?php endif; ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        <?php endif;?>
+                        <?php endforeach; ?>
 
-                        <div class="card shadow">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">No</th>
-                                        <th scope="col">Username</th>
-                                        <th scope="col">Judul</th>
-                                        <th scope="col">Tanggal Peminjaman</th>
-                                        <th scope="col">Tanggal Pengembalian</th>
-                                        <th scope="col">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if (!empty($riwayatPeminjaman)): ?>
-                                        <?php $i = 1;?>
-                                        <?php foreach ($riwayatPeminjaman as $riwayat): ?>
-                                            <tr>
-                                                <th scope="row"><?=$riwayat['PeminjamanID'];?></th>
-                                                <td><?=$riwayat['Username'];?></td>
-                                                <td><?=$riwayat['Judul'];?></td>
-                                                <td><?=$riwayat['TanggalPeminjaman'];?></td>
-                                                <td><?=$riwayat['TanggalPengembalian'];?></td>
-                                                <td>
-                                                    <?php if ($riwayat['StatusPeminjaman'] == 2): ?>
-                                                        <span class="badge badge-success">Dipinjam</span>
-                                                    <?php elseif ($riwayat['StatusPeminjaman'] == 3): ?>
-                                                        <span class="badge badge-secondary">Dikembalikan</span>
-                                                    <?php endif;?>
-                                                </td>
 
-                                            </tr>
-                                        <?php endforeach;?>
-                                    <?php else: ?>
-                                        <tr>
-                                            <td colspan="5">Tidak ada data peminjaman yang tersedia.</td>
-                                        </tr>
-                                    <?php endif;?>
-                                </tbody>
-                            </table>
-                        </div>
+
                     </div>
                 </div>
             </div>
+            <!-- /.container-fluid -->
 
         </div>
         <!-- End of Main Content -->
@@ -189,24 +173,48 @@
     <i class="fas fa-angle-up"></i>
 </a>
 
-<!-- Logout Modal-->
-<div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                <a class="btn btn-primary" href="login.html">Logout</a>
-            </div>
-        </div>
-    </div>
-</div>
+<script>
+    function tambahKoleksi(bukuID) {
+        // Kirim permintaan AJAX untuk menambahkan ke koleksi pribadi
+        fetch('/peminjam/tambahKoleksi', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+                bukuID: bukuID
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                location.reload(); // Refresh halaman jika berhasil
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function hapusKoleksi(koleksiID) {
+        // Kirim permintaan AJAX untuk menghapus dari koleksi pribadi
+        fetch('/peminjam/hapusKoleksi', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            body: JSON.stringify({
+                koleksiID: koleksiID
+            })
+        })
+        .then(response => {
+            if (response.ok) {
+                // Hapus kartu dari tampilan
+                document.getElementById(`kartu-${koleksiID}`).remove();
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+</script>
 
 
-<?=$this->endSection();?>
+<?= $this->endSection(); ?>
