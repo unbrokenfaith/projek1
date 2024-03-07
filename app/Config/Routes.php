@@ -67,7 +67,10 @@ $routes->get('/admin/riwayatpeminjaman', 'RiwayatPeminjamanController::index');
 $routes->post('admin/riwayatpeminjaman/kembalikan/(:num)', 'RiwayatPeminjamanController::kembalikanPeminjaman/$1');
 
 // Generate Laporan (for admin)
-$routes->get('/admin/generatelaporan', 'RiwayatPeminjamanController::generateLaporan');
+$routes->get('/generatelaporan', 'RiwayatPeminjamanController::generateLaporan');
+
+
+
 
 // Halaman sebagai Petugas
 $routes->get('/petugas', 'PetugasPageController::index');
@@ -96,6 +99,9 @@ $routes->get('/petugas/user/edit/(:any)', 'UserPetugasController::edit/$1');
 $routes->post('/userpetugas/update/(:any)', 'UserPetugasController::update/$1');
 $routes->delete('/userpetugas/(:num)', 'UserPetugasController::delete/$1');
 
+// Riwayat Peminjaman (for petugas)
+$routes->get('/petugas/riwayatpeminjaman', 'RiwayatPeminjamanPetugasController::index');
+$routes->post('petugas/riwayatpeminjaman/kembalikan/(:num)', 'RiwayatPeminjamanPetugasController::kembalikanPeminjaman/$1');
 
 
 // Halaman sebagai Peminjam

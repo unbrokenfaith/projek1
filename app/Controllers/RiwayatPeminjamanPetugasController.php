@@ -6,7 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\PeminjamanModel;
 use \Dompdf\Dompdf;
 
-class RiwayatPeminjamanController extends BaseController
+class RiwayatPeminjamanPetugasController extends BaseController
 {
     protected $peminjamanModel;
 
@@ -31,7 +31,7 @@ class RiwayatPeminjamanController extends BaseController
             'peminjaman' => $peminjamanDiizinkanDanDikembalikan,
         ];
 
-        return view('/admin/riwayatpeminjaman/index', $data);
+        return view('/petugas/riwayatpeminjaman/index', $data);
     }
 
     public function generateLaporan() {
@@ -76,6 +76,6 @@ class RiwayatPeminjamanController extends BaseController
         $this->peminjamanModel->update($id, $data);
 
         // Redirect atau kembali ke halaman riwayat peminjaman
-        return redirect()->to('/admin/riwayatpeminjaman')->with('success', 'Peminjaman telah dikembalikan.');
+        return redirect()->to('/petugas/riwayatpeminjaman')->with('success', 'Peminjaman telah dikembalikan.');
     }
 }
