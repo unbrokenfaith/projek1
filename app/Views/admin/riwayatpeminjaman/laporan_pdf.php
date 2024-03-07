@@ -28,6 +28,7 @@
                 <th>Username</th>
                 <th>Judul</th>
                 <th>Tanggal Peminjaman</th>
+                <th>Tanggal Pengembalian</th>
             </tr>
         </thead>
         <tbody>
@@ -38,6 +39,7 @@
                     <td><?= $pm['Username']; ?></td>
                     <td><?= $pm['Judul']; ?></td>
                     <td><?= $pm['TanggalPeminjaman']; ?></td>
+                    <td><?= $pm['TanggalPengembalian']; ?></td>
                 </tr>
             <?php endforeach; ?>
         </tbody>
